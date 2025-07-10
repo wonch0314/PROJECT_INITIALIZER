@@ -1,0 +1,6 @@
+[submodule "PROJECT_INITIALIZER_FRONT"]
+	path = PROJECT_INITIALIZER_FRONT
+	url = https://github.com/wonch0314/PROJECT_INITIALIZER_FRONT.git
+[submodule "PROJECT_INITIALIZER_BACK"]
+	path = PROJECT_INITIALIZER_BACK
+	url = https://github.com/wonch0314/PROJECT_INITIALIZER_BACK.git
