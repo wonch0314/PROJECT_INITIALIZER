@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    container_name: my-postgres
+    environment:
+      POSTGRES_PASSWORD: "new1234!"
+      POSTGRES_USER: admin
+      POSTGRES_DB: mydb
+    volumes:
+      - my-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend # backend Dockerfile이 위치한 경로
+    container_name: my-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    # environment:
+    #   # 필요 시 환경 변수 추가
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend # frontend Dockerfile이 위치한 경로
+    container_name: my-front
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  my-pgdata:
