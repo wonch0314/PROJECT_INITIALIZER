@@ -1,0 +1,22 @@
+name: db
+replicaCount: 1
+image:
+  repository: postgres
+  tag: "16"
+containerPort: 5432
+servicePort: 5432
+env:
+  POSTGRES_DB: mydb
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: new1234!
+pvc:
+  enabled: true
+  name: db-pvc
+  size: 5Gi
+volumeMounts:
+  - name: db-data
+    mountPath: /var/lib/postgresql/data
+volumes:
+  - name: db-data
+    persistentVolumeClaim:
+      claimName: db-pvc

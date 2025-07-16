@@ -1,0 +1,7 @@
+name: frontend
+replicaCount: 1
+image:
+  repository: my-front
+  tag: latest
+containerPort: 5173
+servicePort: 5173

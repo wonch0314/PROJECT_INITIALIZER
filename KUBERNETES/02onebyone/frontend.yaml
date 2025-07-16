@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-front
+  namespace: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-front
+  template:
+    metadata:
+      labels:
+        app: my-front
+    spec:
+      containers:
+        - name: frontend
+          image: chanchan0314/my-front
+          ports:
+            - containerPort: 5173
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-front
+  namespace: myapp
+spec:
+  type: NodePort # 또는 LoadBalancer (클라우드면 LoadBalancer 추천)
+  ports:
+    - port: 5173
+      targetPort: 5173
+      nodePort: 32173 # nodePort는 선택, 미지정 시 자동 할당
+  selector:
+    app: my-front

@@ -1,0 +1,13 @@
+name: backend
+replicaCount: 1
+image:
+  repository: my-back
+  tag: latest
+containerPort: 8000
+servicePort: 8000
+env:
+  DB_HOST: db
+  DB_PORT: "5432"
+  DB_NAME: mydb
+  DB_USER: admin
+  DB_PASSWORD: new1234!

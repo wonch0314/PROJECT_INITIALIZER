@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-backend
+  namespace: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-backend
+  template:
+    metadata:
+      labels:
+        app: my-backend
+    spec:
+      containers:
+        - name: backend
+          image: chanchan0314/my-back
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              value: "my-postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "admin"
+            - name: DB_PASSWORD
+              value: "new1234!"
+            - name: DB_NAME
+              value: "mydb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-backend
+  namespace: myapp
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: my-backend

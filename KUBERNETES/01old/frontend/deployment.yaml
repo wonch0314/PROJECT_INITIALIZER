@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-front
+  namespace: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-front
+  template:
+    metadata:
+      labels:
+        app: my-front
+    spec:
+      containers:
+        - name: frontend
+          image: <프론트 이미지:태그> # 빌드 후 이미지 레지스트리에 올리고, 경로 작성
+          ports:
+            - containerPort: 5173

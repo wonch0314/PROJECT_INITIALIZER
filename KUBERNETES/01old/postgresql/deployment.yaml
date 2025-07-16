@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-postgres
+  namespace: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-postgres
+  template:
+    metadata:
+      labels:
+        app: my-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "new1234!"
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "mydb"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: my-pgdata
+      volumes:
+        - name: my-pgdata
+          persistentVolumeClaim:
+            claimName: my-pgdata

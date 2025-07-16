@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-front
+  namespace: myapp
+spec:
+  type: NodePort # or LoadBalancer (cloud 환경이면 LoadBalancer 추천)
+  ports:
+    - port: 5173
+      targetPort: 5173
+      nodePort: 32173 # (옵션, 포트 직접 지정)
+  selector:
+    app: my-front

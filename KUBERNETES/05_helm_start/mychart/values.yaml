@@ -1,0 +1,20 @@
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.25"
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 31000
+
+ingress:
+  enabled: true
+  className: ""           # ingressClassName 사용 시
+  annotations: {}         # 필요 시 annotation 추가
+  hosts:
+    - host: example.local
+      paths:
+        - /
+  tls: []                 # 필요 시 HTTPS 적용
