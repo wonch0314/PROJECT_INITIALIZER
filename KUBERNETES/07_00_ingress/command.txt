@@ -1,0 +1,20 @@
+kubectl run apache --image httpd --expose --port 80
+
+kubectl run nginx --image nginx --expose --port 80
+
+curl -H "Host: 10.0.1.1.sslip.io" http://localhost
+
+# TLS 인증
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=apache-tls.10.0.1.1.sslip.io"
+
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+    name: my-tls-certs
+    namespace: default
+data:
+    tls.crt: $(cat tls.crt | base64 | tr -d '\n')
+    tls.key: $(cat tls.key | base64 | tr -d '\n')
+type: kubernetes.io/tls
+EOF

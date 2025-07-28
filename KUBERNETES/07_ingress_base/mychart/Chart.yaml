@@ -1,0 +1,6 @@
+apiVersion: v2 # Helm v3 이상에서는 v2 사용
+name: my-nginx # Chart 이름
+description: A Helm chart for Nginx web server
+type: application # application | library
+version: 1.0.0 # Chart 자체 버전
+appVersion: "1.25.0" # 실제 배포하는 앱(Nginx 등)의 버전

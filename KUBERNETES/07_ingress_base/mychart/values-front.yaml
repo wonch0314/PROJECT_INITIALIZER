@@ -3,8 +3,10 @@ replicaCount: 1
 image:
   repository: chanchan0314/my-front
   tag: latest
+  
 containerPort: 80
 servicePort: 80
+
 ingress:
   enabled: true
   className: nginx
