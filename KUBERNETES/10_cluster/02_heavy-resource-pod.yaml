@@ -1,0 +1,16 @@
+# heavy-resource-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: heavy-resource-pod
+spec:
+  containers:
+  - name: resource-hungry
+    image: nginx:1.20
+    resources:
+      requests:
+        memory: "10Gi"    # 매우 큰 메모리 요구
+        cpu: "5"          # 5 CPU 코어 요구
+      limits:
+        memory: "15Gi"
+        cpu: "8"

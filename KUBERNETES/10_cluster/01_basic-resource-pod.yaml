@@ -1,0 +1,20 @@
+# basic-resource-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: basic-resource-pod
+  labels:
+    app: resource-test
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:1.20
+    resources:
+      requests:        # 최소 보장 리소스
+        memory: "64Mi"
+        cpu: "100m"
+      limits:          # 최대 사용 가능 리소스
+        memory: "128Mi"
+        cpu: "200m"
+    ports:
+    - containerPort: 80

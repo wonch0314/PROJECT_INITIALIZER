@@ -1,0 +1,24 @@
+# stress-test-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-test-pod
+spec:
+  containers:
+  - name: stress-container
+    image: polinux/stress  # 스트레스 테스트용 이미지
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "100m"
+      limits:
+        memory: "200Mi"
+        cpu: "500m"
+    command: ["stress"]
+    args: 
+      - "--vm"           # 메모리 스트레스
+      - "1"              # 1개 워커
+      - "--vm-bytes"     # 사용할 메모리 양
+      - "150M"           # 150MB
+      - "--timeout"      # 실행 시간
+      - "60s"            # 60초

@@ -1,0 +1,45 @@
+# qos-test-pods.yaml
+# 1. Guaranteed Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guaranteed-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.20
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "100m"
+      limits:
+        memory: "100Mi"    # requests와 동일
+        cpu: "100m"        # requests와 동일
+---
+# 2. Burstable Pod  
+apiVersion: v1
+kind: Pod
+metadata:
+  name: burstable-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.20
+    resources:
+      requests:
+        memory: "50Mi"
+        cpu: "50m"
+      limits:
+        memory: "100Mi"    # requests보다 큼
+        cpu: "200m"        # requests보다 큼
+---
+# 3. BestEffort Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: besteffort-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.20
+    # 리소스 설정 없음
