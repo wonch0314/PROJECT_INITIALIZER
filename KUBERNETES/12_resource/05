@@ -1,0 +1,41 @@
+# 1. 현재 노드 상태 확인
+kubectl get nodes
+
+# 2. 테스트용 Pod 몇 개 생성
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.20
+        ports:
+        - containerPort: 80
+EOF
+
+# 3. Pod들이 어느 노드에 배치되었는지 확인
+kubectl get pods -o wide
+
+# 4. 특정 노드를 Cordon (스케줄링 차단)
+kubectl cordon <노드이름>
+
+# 5. Cordon된 노드 상태 확인 (SchedulingDisabled 표시됨)
+kubectl get nodes
+
+# 6. 새로운 Pod 생성해서 Cordon된 노드에 배치되지 않는지 확인
+kubectl scale deployment test-deployment --replicas=5
+kubectl get pods -o wide
+
+# 7. Cordon 해제
+kubectl uncordon <노드이름>

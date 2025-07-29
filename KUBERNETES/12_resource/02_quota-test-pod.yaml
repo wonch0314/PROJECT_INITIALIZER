@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quota-test-pod-5
+  namespace: dev-team
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+  
+
+# # 1. 첫 번째 Pod 생성
+# kubectl apply -f quota-test-pod.yaml
+
+# # 2. ResourceQuota 사용량 확인
+# kubectl describe resourcequota dev-team-quota -n dev-team
+# # USED/HARD 컬럼에서 사용량 확인 가능
+
+# # 3. 동일한 Pod를 4개 더 생성해보기
+# # quota-test-pod.yaml에서 name을 quota-test-pod-2, 3, 4, 5로 변경 후
+# kubectl apply -f quota-test-pod.yaml
+
+# # 4. 계속 생성하여 쿼터 한계 테스트
+# kubectl describe resourcequota dev-team-quota -n dev-team
+
+# # 5. 5번째 Pod 생성에서 에러 발생

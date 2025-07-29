@@ -1,0 +1,52 @@
+# limit-range.yaml
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: dev-team-limits
+  namespace: dev-team
+spec:
+  limits:
+  - type: Pod
+    max:              # Pod 전체 최대값
+      cpu: "2"
+      memory: "4Gi"
+    min:              # Pod 전체 최소값  
+      cpu: "100m"
+      memory: "50Mi"
+  - type: Container
+    default:          # 기본값 (limits)
+      cpu: "200m"
+      memory: "256Mi"
+    defaultRequest:   # 기본값 (requests)
+      cpu: "100m"
+      memory: "128Mi"
+    max:              # 컨테이너 최대값
+      cpu: "1"
+      memory: "2Gi"
+    min:              # 컨테이너 최소값
+      cpu: "50m"
+      memory: "32Mi"
+
+# # 1. LimitRange 생성
+# kubectl apply -f limit-range.yaml
+
+# # 2. LimitRange 확인
+# kubectl get limitrange -n dev-team
+# kubectl describe limitrange dev-team-limits -n dev-team
+
+# # 3. 리소스 명시 없이 Pod 생성해보기
+# cat <<EOF | kubectl apply -f -
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: default-resource-pod
+#   namespace: dev-team
+# spec:
+#   containers:
+#   - name: nginx
+#     image: nginx:1.20
+#     # 리소스 명시 안함 - 기본값 적용됨
+# EOF
+
+# # 4. 기본값이 적용되었는지 확인
+# kubectl describe pod default-resource-pod -n dev-team
